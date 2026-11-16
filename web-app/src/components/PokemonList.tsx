@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTheme } from "./theme";
 import Card from './Card';
-import type { Pokemon } from '../types/pokemon';
+import type { Pokemon } from '@shared/types/pokemon.types';
 
 interface PokemonListProps {
   pokemons: Pokemon[];

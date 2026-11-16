@@ -3,7 +3,7 @@ import PokemonList from './PokemonList';
 import { Header } from './Header';
 import { useTheme } from './theme';
 import axios from 'axios';
-import type { Pokemon } from '../types/pokemon';
+import type { Pokemon } from '@shared/types/pokemon.types';
 
 const API_URL = 'http://localhost:3001'
 

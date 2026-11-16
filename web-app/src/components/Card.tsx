@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { useTheme } from "./theme";
-import type { Pokemon } from "../types/pokemon";
+import type { Pokemon } from "@shared/types/pokemon.types";
 
 interface CardProps {
     pokemon: Pokemon;
@@ -23,7 +23,7 @@ function throttle<Args extends unknown[]>(
 
 export const MiniCard: React.FC<CardProps> = ({ pokemon }) => {
     return <div className="bg-amber-300 rounded-2xl p-2 h-[40px] flex items-center">
-        <img src={pokemon.imageUrl} alt={pokemon.name} style={{ height: '100%' }} />
+        <img src={pokemon.image} alt={pokemon.name} style={{ height: '100%' }} />
         <div className="text-center ml-2">{pokemon.name}</div>
     </div>;
 }
