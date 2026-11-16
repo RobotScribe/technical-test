@@ -64,7 +64,9 @@ PokemonController.get(
 	async (req: Request, res: Response) => {
 		const { id } = req.params
 
-		console.log('coucou')
+		if(typeof id !== 'string') {
+			return res.status(400).send({error: 'Invalid ID'})
+		}
 		const pokemon = await fetchPokemon(id)
 
 		return res.status(200).send({pokemon})

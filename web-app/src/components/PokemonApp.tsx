@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PokemonList from './PokemonList';
 import { Header } from './Header';
-import { useTheme } from './ThemeContext';
+import { useTheme } from './theme';
 import axios from 'axios';
+import type { Pokemon } from '../types/pokemon';
 
 const API_URL = 'http://localhost:3001'
 
 const PokemonApp: React.FC = () => {
-  const [pokemonList, setPokemonList] = useState<any[]>([]);
+  const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
   const { theme } = useTheme();
 
   useEffect(() => {

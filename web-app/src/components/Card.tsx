@@ -1,22 +1,23 @@
-import { useCallback, useState } from "react";
-import { useTheme } from "./ThemeContext";
+import { useMemo, useState } from "react";
+import { useTheme } from "./theme";
+import type { Pokemon } from "../types/pokemon";
 
 interface CardProps {
-    pokemon: any;
+    pokemon: Pokemon;
 }
 
-function throttle<T extends (...args: any[]) => any>(
-    func: T,
+function throttle<Args extends unknown[]>(
+    func: (...args: Args) => unknown,
     delay: number = 100
-): (...args: Parameters<T>) => void {
+): (...args: Args) => void {
     let lastCall = 0;
-    return (...args: Parameters<T>) => {
+    return (...args: Args) => {
       const now = new Date().getTime();
       if (now - lastCall < delay) {
         return;
       }
       lastCall = now;
-      return func(...args);
+      func(...args);
     };
 }
 
@@ -29,13 +30,11 @@ export const MiniCard: React.FC<CardProps> = ({ pokemon }) => {
 
 const Card: React.FC<CardProps> = ({ pokemon }) => {
     const { theme } = useTheme();
-    if (!pokemon) {
-        return null;
-    }
+
     const [rotate, setRotate] = useState({ x: 0, y: 0 });
 
-    const onMouseMove = useCallback(
-        throttle((e: React.MouseEvent<HTMLDivElement>) => {
+    const onMouseMove = useMemo(
+        () => throttle((e: React.MouseEvent<HTMLDivElement>) => {
           const card = e.currentTarget;
           const box = card.getBoundingClientRect();
           const x = e.clientX - box.left;
@@ -44,11 +43,15 @@ const Card: React.FC<CardProps> = ({ pokemon }) => {
           const centerY = box.height / 2;
           const rotateX = (y - centerY) / 10;
           const rotateY = (centerX - x) / 10;
-    
+
           setRotate({ x: rotateX, y: rotateY });
         }),
         []
     );
+
+    if (!pokemon) {
+        return null;
+    }
 
     const onMouseLeave = () => {
         setRotate({ x: 0, y: 0 });

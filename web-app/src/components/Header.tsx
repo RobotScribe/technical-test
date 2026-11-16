@@ -1,4 +1,4 @@
-import { useTheme } from "./ThemeContext";
+import { useTheme } from "./theme";
 import ThemeSwitcher from "./ThemeSwitcher";
 
 export function Header() {

@@ -1,9 +1,10 @@
 import React from 'react';
-import { useTheme } from "./ThemeContext";
+import { useTheme } from "./theme";
 import Card from './Card';
+import type { Pokemon } from '../types/pokemon';
 
 interface PokemonListProps {
-  pokemons: any[];
+  pokemons: Pokemon[];
 }
 
 const PokemonList: React.FC<PokemonListProps> = ({ pokemons }) => {
