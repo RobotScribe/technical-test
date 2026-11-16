@@ -77,7 +77,9 @@ const computeResistances = (types: ApiType[]): Resistance[] =>
 			return multiplier
 		}, 1)
 
-		return { name: attacker, damage_multiplier, damage_relation: DAMAGE_RELATIONS[damage_multiplier] }
+		const damage_relation = DAMAGE_RELATIONS[damage_multiplier] ?? 'neutral'
+
+		return { name: attacker, damage_multiplier, damage_relation }
 	})
 
 const findChainLink = (link: ApiChainLink, speciesName: string): ApiChainLink | undefined =>

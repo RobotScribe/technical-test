@@ -3,6 +3,7 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
+import { strictRules } from '../shared/eslint-strict-rules.mjs'
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -12,6 +13,10 @@ export default tseslint.config(
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     plugins: {
       'react-hooks': reactHooks,
@@ -23,6 +28,7 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      ...strictRules,
     },
   },
 )

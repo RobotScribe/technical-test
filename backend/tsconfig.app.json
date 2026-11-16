@@ -1,7 +1,6 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
     "tsBuildInfoFile": "./dist/tsconfig.app.tsbuildinfo",
     "types": ["node"],
     "rootDir": "src"

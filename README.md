@@ -165,3 +165,11 @@ About **4 hours**. This is not a timed test: focus on quality and clarity.
 As you may have noticed, a boilerplate is provided to make your job easier. Feel free to add types, create interfaces, change the existing architecture, and bring your own changes or improvements to it.
 
 If you lean towards front-end, you can spend more time on the UX/UI and completely rework the front end. Conversely, if you are more back-end oriented, feel free to enrich the business logic, structure the code, or improve performance and security.
+
+## Next steps
+- Add some eslint plugins to enforce more project quality rules
+  - `eslint-plugin-import` — `import/order`, `import/no-duplicates`, `import/no-anonymous-default-export`, `import/no-extraneous-dependencies`
+  - `prettier`, `eslint-plugin-prettier`, `eslint-config-prettier`
+  - `eslint-plugin-sort-keys-fix`
+  - `eslint-plugin-sort-class-members`
+  - web : `eslint-plugin-react`, `eslint-plugin-tailwindcss`

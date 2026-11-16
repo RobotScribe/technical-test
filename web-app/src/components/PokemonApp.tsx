@@ -18,7 +18,7 @@ const PokemonApp: React.FC = () => {
             setPokemonList([pokemon]);
     };
 
-    getPokemon();
+    void getPokemon();
   }, []);
 
   if (!pokemonList.length) {

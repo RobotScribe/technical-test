@@ -49,10 +49,6 @@ const Card: React.FC<CardProps> = ({ pokemon }) => {
         []
     );
 
-    if (!pokemon) {
-        return null;
-    }
-
     const onMouseLeave = () => {
         setRotate({ x: 0, y: 0 });
     };
