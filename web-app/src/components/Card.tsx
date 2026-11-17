@@ -30,7 +30,12 @@ export const MiniCard: React.FC<CardProps> = ({ pokemon }) => {
 	)
 }
 
-const Card: React.FC<CardProps> = ({ pokemon }) => {
+interface SelectableCardProps extends CardProps {
+	selected?: boolean
+	onSelect?: () => void
+}
+
+const Card: React.FC<SelectableCardProps> = ({ pokemon, selected = false, onSelect }) => {
 	const { theme } = useTheme()
 
 	const [rotate, setRotate] = useState({ x: 0, y: 0 })
@@ -57,7 +62,17 @@ const Card: React.FC<CardProps> = ({ pokemon }) => {
 	}
 	return (
 		<div
-			className={` bg-gradient-to-r from-amber-300 via-amber-100 to-amber-300  p-1 rounded-2xl w-[250px] shadow-md outline-orange-400 hover:outline-dashed`}
+			className={` bg-gradient-to-r from-amber-300 via-amber-100 to-amber-300  p-1 rounded-2xl w-[250px] shadow-md outline-orange-400 hover:outline-dashed cursor-pointer ${selected ? 'outline-dashed outline-4' : ''}`}
+			role="button"
+			tabIndex={0}
+			aria-pressed={selected}
+			onClick={onSelect}
+			onKeyDown={(e) => {
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault()
+					onSelect?.()
+				}
+			}}
 			onMouseMove={onMouseMove}
 			onMouseLeave={onMouseLeave}
 			style={{
@@ -67,22 +82,22 @@ const Card: React.FC<CardProps> = ({ pokemon }) => {
 		>
 			<div className={`rounded-2xl bg-gradient-to-br from-black/10 via-white/70 to-black/10 `}>
 				<div className="p-4 flex-col rounded-2xl">
-					<div className="flex gap-3 justify-between">
-						<div className="font-bold">{pokemon.name}</div>
-						<div>HP: {pokemon.stats.HP}</div>
-						{pokemon.apiTypes.map((type) => (
-							<img
-								className="self-end"
-								src={type.image}
-								alt={type.name}
-								style={{ width: '20px' }}
-							/>
-						))}
+					<div className="flex gap-3 items-center justify-between">
+						<div className="font-bold truncate min-w-0" title={pokemon.name}>
+							{pokemon.name}
+						</div>
+						<div className="shrink-0 whitespace-nowrap">HP: {pokemon.stats.HP}</div>
+						<div className="flex gap-1 shrink-0">
+							{pokemon.apiTypes.map((type) => (
+								<img key={type.name} src={type.image} alt={type.name} style={{ width: '20px' }} />
+							))}
+						</div>
 					</div>
 					<img
 						className={`${theme === 'light' ? 'bg-white' : 'bg-blue-950'} outline outline-2 my-3`}
 						src={pokemon.image}
 						alt={pokemon.name}
+						loading="lazy"
 						style={{ width: 'auto' }}
 					/>
 					<div>Attack: {pokemon.stats.attack}</div>
