@@ -1,15 +1,19 @@
 import { type Request, type Response, Router } from 'express'
-import type { PokemonListResponse, PokemonListParams, PokemonTypesResponse } from '@shared/types/pokemon.types'
-import {  getPokemonsList, getTypeNames } from '../services/pokemon.service'
+import type {
+	PokemonListResponse,
+	PokemonListParams,
+	PokemonTypesResponse,
+} from '@shared/types/pokemon.types'
+import { getPokemonsList, getTypeNames } from '../services/pokemon.service'
 
 const PokemonController = Router()
 
-const MAX_POKEMON_LIST_LIMIT = 100;
+const MAX_POKEMON_LIST_LIMIT = 100
 
 PokemonController.get(
 	'/',
 	async (req: Request, res: Response<PokemonListResponse | { error: string }>) => {
-		const params = req.query as unknown as PokemonListParams; // TODO: use shared contracts library to avoid as unknown as and problems with numbers converted to strings
+		const params = req.query as unknown as PokemonListParams // TODO: use shared contracts library to avoid as unknown as and problems with numbers converted to strings
 		const { name, type, page: pageStr, limit: limitStr } = params
 
 		const page = Number(pageStr)
@@ -35,17 +39,13 @@ PokemonController.get(
 		const response = await getPokemonsList({ page, limit, name, type })
 
 		return res.status(200).send(response)
-	}
+	},
 )
 
+PokemonController.get('/types', async (_req: Request, res: Response<PokemonTypesResponse>) => {
+	const types = await getTypeNames()
 
-PokemonController.get(
-	'/types',
-	async (_req: Request, res: Response<PokemonTypesResponse>) => {
-		const types = await getTypeNames()
-
-		return res.status(200).send({ types })
-	}
-)
+	return res.status(200).send({ types })
+})
 
 export { PokemonController }

@@ -1,13 +1,13 @@
-import js from "@eslint/js";
-import tseslint from "typescript-eslint";
+import js from '@eslint/js'
+import tseslint from 'typescript-eslint'
 
-import { strictRules } from "./eslint-strict-rules.mjs";
+import { strictRules } from './eslint-strict-rules.mjs'
 
 export default tseslint.config(
-	{ ignores: ["dist"] },
+	{ ignores: ['dist'] },
 	{
 		extends: [js.configs.recommended, ...tseslint.configs.recommended],
-		files: ["**/*.ts"],
+		files: ['**/*.ts'],
 		languageOptions: {
 			ecmaVersion: 2020,
 			parserOptions: {
@@ -17,4 +17,4 @@ export default tseslint.config(
 		},
 		rules: strictRules,
 	},
-);
+)

@@ -17,14 +17,30 @@ export const getPokemon = async (id: string | number): Promise<ApiPokemon> => {
 }
 
 // Example : https://pokeapi.co/api/v2/pokemon?limit=100&offset=0
-export const getAllPokemons = async ({limit, offset = 0}: {limit: number, offset?: number}): Promise<ApiPokemonList> => {
-	const { data } = await axios.get<ApiPokemonList>(`${POKEAPI_URL}/pokemon`, { params: { limit, offset } })
+export const getAllPokemons = async ({
+	limit,
+	offset = 0,
+}: {
+	limit: number
+	offset?: number
+}): Promise<ApiPokemonList> => {
+	const { data } = await axios.get<ApiPokemonList>(`${POKEAPI_URL}/pokemon`, {
+		params: { limit, offset },
+	})
 	return data
 }
 
 // Example : https://pokeapi.co/api/v2/type?limit=100&offset=0
-export const getAllTypes = async ({limit, offset = 0}: {limit: number, offset?: number}): Promise<ApiTypeList> => {
-	const { data } = await axios.get<ApiTypeList>(`${POKEAPI_URL}/type`, { params: { limit, offset } })
+export const getAllTypes = async ({
+	limit,
+	offset = 0,
+}: {
+	limit: number
+	offset?: number
+}): Promise<ApiTypeList> => {
+	const { data } = await axios.get<ApiTypeList>(`${POKEAPI_URL}/type`, {
+		params: { limit, offset },
+	})
 	return data
 }
 

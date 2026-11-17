@@ -1,0 +1,11 @@
+{
+  "name": "technical-test",
+  "private": true,
+  "scripts": {
+    "format": "prettier --write \"{web-app,backend,shared}/**/*.{ts,tsx,js,mjs,json,css,html}\"",
+    "format:check": "prettier --check \"{web-app,backend,shared}/**/*.{ts,tsx,js,mjs,json,css,html}\""
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
+  }
+}

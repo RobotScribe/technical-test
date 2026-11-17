@@ -1,4 +1,3 @@
-
 import cors from 'cors'
 import express from 'express'
 
@@ -13,11 +12,13 @@ app.disable('x-powered-by')
 const httpServer = createServer(app)
 
 app.set('trust proxy', 1)
-app.use(cors({
-	origin: true,
-	credentials: true,
-	exposedHeaders: ['set-cookie']
-}))
+app.use(
+	cors({
+		origin: true,
+		credentials: true,
+		exposedHeaders: ['set-cookie'],
+	}),
+)
 
 /**
  * Body parser
@@ -31,7 +32,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/pokemons', PokemonController)
 app.use('/contents', ContentController)
 app.get('/ping', (_req, res) => res.status(200).send('pong'))
-
 
 /* -------------------------- Start the application ------------------------- */
 

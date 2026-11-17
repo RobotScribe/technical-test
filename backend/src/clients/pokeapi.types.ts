@@ -1,55 +1,55 @@
 interface NamedResource {
-	name: string;
-	url: string;
+	name: string
+	url: string
 }
 
 export interface ApiPokemon {
-	id: number;
-	name: string;
+	id: number
+	name: string
 	sprites: {
-		front_default: string | null;
-		other: { "official-artwork": { front_default: string | null } };
-	};
-	stats: { base_stat: number; stat: NamedResource }[];
-	types: { slot: number; type: NamedResource }[];
-	abilities: { ability: NamedResource }[];
-	species: NamedResource;
+		front_default: string | null
+		other: { 'official-artwork': { front_default: string | null } }
+	}
+	stats: { base_stat: number; stat: NamedResource }[]
+	types: { slot: number; type: NamedResource }[]
+	abilities: { ability: NamedResource }[]
+	species: NamedResource
 }
 
 export interface ApiType {
-	name: string;
+	name: string
 	damage_relations: {
-		double_damage_from: NamedResource[];
-		half_damage_from: NamedResource[];
-		no_damage_from: NamedResource[];
-	};
-	sprites: { "generation-viii": { "sword-shield": { name_icon: string | null } } };
-	pokemon: { slot: number; pokemon: NamedResource }[];
+		double_damage_from: NamedResource[]
+		half_damage_from: NamedResource[]
+		no_damage_from: NamedResource[]
+	}
+	sprites: { 'generation-viii': { 'sword-shield': { name_icon: string | null } } }
+	pokemon: { slot: number; pokemon: NamedResource }[]
 }
 
 export interface ApiSpecies {
-	name: string;
-	generation: NamedResource;
-	evolves_from_species: NamedResource | null;
-	evolution_chain: { url: string };
+	name: string
+	generation: NamedResource
+	evolves_from_species: NamedResource | null
+	evolution_chain: { url: string }
 }
 
 export interface ApiChainLink {
-	species: NamedResource;
-	evolves_to: ApiChainLink[];
+	species: NamedResource
+	evolves_to: ApiChainLink[]
 }
 
 export interface ApiEvolutionChain {
-	chain: ApiChainLink;
+	chain: ApiChainLink
 }
 
 interface ApiResourceList {
-	count: number;
-	next: string | null;
-	previous: string | null;
-	results: NamedResource[];
+	count: number
+	next: string | null
+	previous: string | null
+	results: NamedResource[]
 }
 
-export type ApiPokemonList = ApiResourceList;
+export type ApiPokemonList = ApiResourceList
 
-export type ApiTypeList = ApiResourceList;
+export type ApiTypeList = ApiResourceList

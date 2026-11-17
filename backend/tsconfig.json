@@ -1,25 +1,25 @@
 {
 	"compilerOptions": {
-	  "module": "commonjs",
-	  "target": "ES2020",
-	  "moduleResolution": "node",
-	  "esModuleInterop": true,
-	  "outDir": "dist",
-	  "strict": true,
-	  "noUncheckedIndexedAccess": true,
-	  "noUnusedLocals": true,
-	  "noUnusedParameters": true,
-	  "noFallthroughCasesInSwitch": true,
-	  "forceConsistentCasingInFileNames": true,
-	  "isolatedModules": true,
-	  "moduleDetection": "force",
-	  "skipLibCheck": true
+		"module": "commonjs",
+		"target": "ES2020",
+		"moduleResolution": "node",
+		"esModuleInterop": true,
+		"outDir": "dist",
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"moduleDetection": "force",
+		"skipLibCheck": true
 	},
 	"files": [],
 	"include": [],
 	"references": [
-	  {
-		"path": "./tsconfig.app.json"
-	  }
+		{
+			"path": "./tsconfig.app.json"
+		}
 	]
-  }
+}

@@ -1,13 +1,13 @@
-import js from "@eslint/js";
-import tseslint from "typescript-eslint";
+import js from '@eslint/js'
+import tseslint from 'typescript-eslint'
 
-import { strictRules } from "../shared/eslint-strict-rules.mjs";
+import { strictRules } from '../shared/eslint-strict-rules.mjs'
 
 export default tseslint.config(
-	{ ignores: ["dist"] },
+	{ ignores: ['dist'] },
 	{
 		extends: [js.configs.recommended, ...tseslint.configs.recommended],
-		files: ["**/*.ts"],
+		files: ['**/*.ts'],
 		languageOptions: {
 			ecmaVersion: 2020,
 			parserOptions: {
@@ -18,10 +18,10 @@ export default tseslint.config(
 		rules: strictRules,
 	},
 	{
-		files: ["src/app.ts"],
+		files: ['src/app.ts'],
 		rules: {
 			// Process entrypoint: the listen log is the server's startup message.
-			"no-console": "off",
+			'no-console': 'off',
 		},
 	},
-);
+)
