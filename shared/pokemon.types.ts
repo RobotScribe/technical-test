@@ -38,17 +38,38 @@ export interface Evolution {
 
 export interface Pokemon {
 	id: number;
-	pokedexId: number;
 	name: string;
 	image: string;
+	stats: Pick<StatBlock, "HP" | "attack" | "defense" | "speed">;
+	apiTypes: PokemonType[];
+}
+
+export interface PokemonWithDetails extends Pokemon {
+	pokedexId: number;
 	sprite: string;
 	slug: string;
 	stats: StatBlock;
-	apiTypes: PokemonType[];
 	apiGeneration: number;
 	apiResistances: Resistance[];
 	resistanceModifyingAbilitiesForApi: Ability;
 	apiEvolutions: Evolution[];
 	apiPreEvolution: string | "none";
 	apiResistancesWithAbilities: Resistance[];
+}
+export interface PokemonListParams {
+	page: number;
+	limit: number;
+	name?: string;
+	type?: string;
+}
+
+export interface PokemonTypesResponse {
+	types: string[];
+}
+
+export interface PokemonListResponse {
+	pokemons: Pokemon[];
+	total: number;
+	page: number;
+	limit: number;
 }
