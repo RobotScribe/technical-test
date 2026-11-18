@@ -58,6 +58,11 @@ export interface PokemonListParams {
 	type?: string
 }
 
+export interface BattleRequest {
+	firstId: number
+	secondId: number
+}
+
 export interface PokemonTypesResponse {
 	types: string[]
 }

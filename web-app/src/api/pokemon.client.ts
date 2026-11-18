@@ -4,8 +4,7 @@ import type {
 	PokemonListResponse,
 	PokemonTypesResponse,
 } from '@shared/types/pokemon.types'
-
-const API_URL = 'http://localhost:3001'
+import { API_URL } from './config'
 
 export const getPokemons = async (params: PokemonListParams): Promise<PokemonListResponse> => {
 	const { data } = await axios.get<PokemonListResponse>(`${API_URL}/pokemons`, { params })

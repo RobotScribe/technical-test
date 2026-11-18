@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import BattleArena from './BattleArena'
 import PokemonList from './PokemonList'
 import PokemonFilters from './PokemonFilters'
 import Pagination from './Pagination'
@@ -25,6 +26,13 @@ const PokemonApp: React.FC = () => {
 		}),
 	)
 	const { selected, toggle, clear } = usePokemonSelection()
+	const [arenaOpen, setArenaOpen] = useState(false)
+	const [first, second] = selected
+
+	const newBattle = () => {
+		setArenaOpen(false)
+		clear()
+	}
 
 	const totalPages = data ? Math.ceil(data.total / PAGE_SIZE) : 0
 
@@ -57,7 +65,15 @@ const PokemonApp: React.FC = () => {
 			)}
 			{data && <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />}
 			<div className="pb-20" />
-			<SelectionBar selected={selected} onClear={clear} />
+			<SelectionBar selected={selected} onClear={clear} onFight={() => setArenaOpen(true)} />
+			{arenaOpen && first && second && (
+				<BattleArena
+					first={first}
+					second={second}
+					onClose={() => setArenaOpen(false)}
+					onNewBattle={newBattle}
+				/>
+			)}
 		</div>
 	)
 }

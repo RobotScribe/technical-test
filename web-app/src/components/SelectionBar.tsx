@@ -6,9 +6,10 @@ import { Button } from '../design-system'
 interface SelectionBarProps {
 	selected: Pokemon[]
 	onClear: () => void
+	onFight: () => void
 }
 
-const SelectionBar: React.FC<SelectionBarProps> = ({ selected, onClear }) => {
+const SelectionBar: React.FC<SelectionBarProps> = ({ selected, onClear, onFight }) => {
 	if (selected.length === 0) {
 		return null
 	}
@@ -21,7 +22,9 @@ const SelectionBar: React.FC<SelectionBarProps> = ({ selected, onClear }) => {
 			<Button variant="secondary" size="sm" onClick={onClear} className="bg-white">
 				Clear
 			</Button>
-			{selected.length === 2 && <span className="text-sm italic">Battle arena coming soon</span>}
+			<Button size="sm" onClick={onFight} disabled={selected.length < 2}>
+				Fight!
+			</Button>
 		</div>
 	)
 }

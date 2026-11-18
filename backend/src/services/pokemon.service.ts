@@ -43,8 +43,13 @@ const getAllPokemonResources = async () => {
 	return results
 }
 
-const getAllTypesByNames = (types: string[]): Promise<ApiType[]> =>
-	Promise.all(types.map((type) => getType(type)))
+const getAllTypesByNames = async (types: string[]): Promise<ApiType[]> =>
+	await Promise.all(types.map((type) => getType(type)))
+
+const getPokemonNamesFromType = async (type: string): Promise<Set<string>> => {
+	const { pokemon } = await getType(type)
+	return new Set(pokemon.map((p) => p.pokemon.name))
+}
 
 const toPokemonTypes = (types: ApiType[]): PokemonType[] =>
 	types.map((type) => ({
@@ -67,9 +72,7 @@ export const getPokemonsList = async ({
 	const query = name?.trim().toLowerCase() ?? ''
 	const [allResources, pokemonNamesFromType] = await Promise.all([
 		getAllPokemonResources(), // We have to fetch all pokemons because PokeAPI doesn't support searching by name
-		type
-			? getType(type).then(({ pokemon }) => new Set(pokemon.map((p) => p.pokemon.name)))
-			: undefined,
+		type ? getPokemonNamesFromType(type) : undefined,
 	])
 	const resources = allResources.filter(
 		(resource) =>

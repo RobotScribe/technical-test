@@ -4,6 +4,7 @@ import express from 'express'
 import { createServer } from 'http'
 import { PokemonController } from './controllers/PokemonController'
 import { ContentController } from './controllers/ContentsController'
+import { BattleController } from './controllers/BattleController'
 
 /** App */
 const app = express()
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: true }))
  */
 app.use('/pokemons', PokemonController)
 app.use('/contents', ContentController)
+app.use('/battles', BattleController)
 app.get('/ping', (_req, res) => res.status(200).send('pong'))
 
 /* -------------------------- Start the application ------------------------- */
