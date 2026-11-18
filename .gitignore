@@ -30,6 +30,9 @@ node_modules
 .env
 .env.scripts
 
+# Markdown export of the pokemons (POST /contents/all)
+pokemons-ru/
+
 # Docker
 .docker
 
