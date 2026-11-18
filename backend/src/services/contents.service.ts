@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'fs/promises'
 import path from 'path'
-import type { PokemonWithDetails } from '@shared/types/pokemon.types'
+import type { DamageRelation, PokemonWithDetails, Resistance } from '@shared/types/pokemon.types'
 import { mapWithConcurrency } from '../utils/async'
 import { fetchPokemon, getAllPokemonIds } from './pokemon.service'
 
@@ -11,38 +11,65 @@ const titleCase = (value: string): string => value.charAt(0).toUpperCase() + val
 export const markdownFileName = (pokemon: PokemonWithDetails): string =>
 	`${pokemon.id}-${pokemon.slug}.md`
 
+const joinNames = (names: string[]): string => {
+	const head = names.slice(0, -1)
+	const last = names.slice(-1).join('')
+	return head.length > 0 ? `${head.join(', ')} and ${last}` : last
+}
+
+// The pokemon name is repeated in every sentence on purpose: the files are split in chunks for
+// the RAG, and each chunk must still mention the pokemon to be found when searching by name.
+const resistanceLines = (name: string, resistances: Resistance[]): string[] => {
+	const namesWhere = (...relations: DamageRelation[]): string[] =>
+		resistances.filter((r) => relations.includes(r.damage_relation)).map((r) => r.name)
+
+	const groups: { label: string; types: string[] }[] = [
+		{ label: 'is immune (x0) to', types: namesWhere('immune') },
+		{ label: 'is twice resistant (x0.25) to', types: namesWhere('twice_resistant') },
+		{ label: 'resists (x0.5)', types: namesWhere('resistant') },
+		{ label: 'is vulnerable (x2) to', types: namesWhere('vulnerable') },
+		{ label: 'is twice vulnerable (x4) to', types: namesWhere('twice_vulnerable') },
+	]
+
+	const lines = groups
+		.filter(({ types }) => types.length > 0)
+		.map(({ label, types }) => `${name} ${label} ${joinNames(types)} attacks.`)
+
+	return [...lines, `${name} takes normal damage (x1) from all other types.`]
+}
+
 export const pokemonToMarkdown = (pokemon: PokemonWithDetails): string => {
 	const { stats } = pokemon
+	const name = titleCase(pokemon.name)
+	const types = pokemon.apiTypes.map((type) => type.name)
+	const evolutions = pokemon.apiEvolutions.map((evolution) => titleCase(evolution.name))
+	const ability = pokemon.resistanceModifyingAbilitiesForApi.name
+
+	const description = [
+		`${name} is a ${types.join('/')} type Pokemon from generation ${pokemon.apiGeneration}.`,
+		ability ? `Its main ability is ${ability}.` : '',
+		pokemon.apiPreEvolution !== 'none'
+			? `${name} evolves from ${titleCase(pokemon.apiPreEvolution)}.`
+			: `${name} has no pre-evolution.`,
+		evolutions.length > 0
+			? `${name} evolves into ${joinNames(evolutions)}.`
+			: `${name} has no evolution.`,
+	]
+		.filter(Boolean)
+		.join(' ')
 
 	return [
-		`# ${titleCase(pokemon.name)}`,
+		`# ${name} (Pokedex #${pokemon.pokedexId})`,
 		'',
-		`- **Pokedex id**: ${pokemon.pokedexId}`,
-		`- **Generation**: ${pokemon.apiGeneration}`,
-		`- **Types**: ${pokemon.apiTypes.map((type) => type.name).join(', ')}`,
-		`- **Main ability**: ${pokemon.resistanceModifyingAbilitiesForApi.name || 'none'}`,
-		`- **Pre-evolution**: ${pokemon.apiPreEvolution}`,
-		`- **Evolutions**: ${pokemon.apiEvolutions.map((evolution) => evolution.name).join(', ') || 'none'}`,
-		`- **Image**: ${pokemon.image}`,
+		description,
 		'',
-		'## Base stats',
+		`## ${name} base stats`,
 		'',
-		'| Stat | Value |',
-		'| --- | --- |',
-		`| HP | ${stats.HP} |`,
-		`| Attack | ${stats.attack} |`,
-		`| Defense | ${stats.defense} |`,
-		`| Special attack | ${stats.special_attack} |`,
-		`| Special defense | ${stats.special_defense} |`,
-		`| Speed | ${stats.speed} |`,
+		`${name} base stats: HP ${stats.HP}, Attack ${stats.attack}, Defense ${stats.defense}, Special attack ${stats.special_attack}, Special defense ${stats.special_defense}, Speed ${stats.speed}.`,
 		'',
-		'## Resistances',
+		`## ${name} type resistances and weaknesses`,
 		'',
-		'| Attacking type | Damage multiplier | Relation |',
-		'| --- | --- | --- |',
-		...pokemon.apiResistances.map(
-			(r) => `| ${r.name} | x${r.damage_multiplier} | ${r.damage_relation} |`,
-		),
+		...resistanceLines(name, pokemon.apiResistances),
 		'',
 	].join('\n')
 }
