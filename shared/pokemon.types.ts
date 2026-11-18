@@ -63,6 +63,29 @@ export interface BattleRequest {
 	secondId: number
 }
 
+/** 1 is the first Pokemon of the BattleRequest, 2 the second one */
+export type FighterSide = 1 | 2
+
+export interface BattleRoundEvent {
+	type: 'round'
+	round: number
+	attacker: FighterSide
+	move: string
+	damage: number
+	hp1: number
+	hp2: number
+	text: string
+}
+
+export interface BattleWinnerEvent {
+	type: 'winner'
+	winner: FighterSide
+	reason: string
+}
+
+/** The battle is streamed as NDJSON: one BattleEvent per line */
+export type BattleEvent = BattleRoundEvent | BattleWinnerEvent
+
 export interface PokemonTypesResponse {
 	types: string[]
 }

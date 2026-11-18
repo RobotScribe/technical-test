@@ -11,11 +11,12 @@ const isPokemonId = (value: unknown): value is number =>
 	Number.isInteger(value) && Number(value) > 0
 
 /**
- * Ask the LLM to simulate a battle between two pokemons. The answer is streamed as text/plain.
+ * Ask the LLM to simulate a battle between two pokemons. The answer is streamed as NDJSON:
+ * one BattleEvent (a round, then the winner) per line.
  * @route POST /battles/stream
  * @group Battles
  * @param {BattleRequest.model} request.body.required - ids of the two pokemons
- * @returns {string} 200 - Chunked text/plain stream of the battle
+ * @returns {string} 200 - Chunked application/x-ndjson stream of the battle
  * @returns {object} 400 - Invalid ids
  * @returns {object} 404 - Pokemon not found
  * @returns {object} 502 - The LLM could not be reached
@@ -42,7 +43,7 @@ BattleController.post('/stream', async (req: Request, res: Response) => {
 		const stream = await startBattleStream(firstId, secondId, abortController.signal)
 
 		res.status(200)
-		res.setHeader('Content-Type', 'text/plain; charset=utf-8')
+		res.setHeader('Content-Type', 'application/x-ndjson; charset=utf-8')
 		res.setHeader('Cache-Control', 'no-cache')
 		res.setHeader('X-Accel-Buffering', 'no')
 		res.flushHeaders()
