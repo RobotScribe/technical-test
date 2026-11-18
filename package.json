@@ -1,11 +1,18 @@
 {
   "name": "technical-test",
   "private": true,
+  "packageManager": "pnpm@10.34.5",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
+    "dev": "concurrently -n backend,web-app -c blue,green \"pnpm --filter backend run dev\" \"pnpm --filter web-app run dev\"",
+    "check": "pnpm --filter @shared/types run check && pnpm --filter backend run check && pnpm --filter web-app run check",
     "format": "prettier --write \"{web-app,backend,shared}/**/*.{ts,tsx,js,mjs,json,css,html}\"",
     "format:check": "prettier --check \"{web-app,backend,shared}/**/*.{ts,tsx,js,mjs,json,css,html}\""
   },
   "devDependencies": {
+    "concurrently": "^10.0.7",
     "prettier": "^3.6.2"
   }
 }
